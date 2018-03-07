@@ -9,15 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/light_years');
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log("Connected at port 3000");
-});
+var db = require('./db/db.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
