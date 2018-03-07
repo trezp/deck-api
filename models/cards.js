@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 
-var cardSchema = mongoose.Schema({
+var CardSchema = mongoose.Schema({
   name: String,
   value: Number  
 });
 
-var Card = mongoose.model('Card', cardSchema);
+var Card = mongoose.model('Card', CardSchema);
 
 module.exports = Card; 
