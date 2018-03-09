@@ -1,10 +1,18 @@
 var mongoose = require('mongoose');
 mongoose.set('debug', true)
-var CardSchema = mongoose.Schema({
+
+
+const CardSchema = mongoose.Schema({
   name: String,
-  value: Number  
+  value: Number,
+  special: String
 });
 
-var Card = mongoose.model('Card', CardSchema);
+const DeckSchema= mongoose.Schema({
+  deck: [CardSchema]
+});
 
-module.exports = Card; 
+const Card = mongoose.model('Card', CardSchema);
+const Deck = mongoose.model('Deck', DeckSchema)
+
+module.exports = {Card, Deck}
