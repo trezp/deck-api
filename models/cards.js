@@ -1,55 +1,47 @@
-var mongoose = require('mongoose');
-mongoose.set('debug', true)
+const mongoose = require('mongoose');
+mongoose.set('debug', true);
 
-const ValueCardSchema = mongoose.Schema({
-  type: {type: String, default: "mileage"},
-  played: {type: Boolean, default: false},
-  value: Number
-});
-
-const SpecialCardSchema = mongoose.Schema({
-  name: String,
-  type: String,
-  played: {type: Boolean, default: false},
-  special: {type: Boolean, default: true}
+const CardSchema = mongoose.Schema({
+  value: {type: Number, default: 0},
+  cardType: {type: String, default: "mileage"},
+  cardAttr: {type: String, default: "none"},
+  quantity: Number,
+  discarded: {type: Boolean, default: false}
 });
 
 const DeckSchema = mongoose.Schema({
-  specialCards: [SpecialCardSchema],
-  mileageCards: [ValueCardSchema]
+  cards: [CardSchema]
 });
 
-const ValueCard = mongoose.model('ValueCard', ValueCardSchema);
-const SpecialCard = mongoose.model('SpecialCard', SpecialCardSchema);
+const Card = mongoose.model('Card', CardSchema);
 const Deck = mongoose.model('Deck', DeckSchema);
 
+function makeMileageCard(value, quantity){
+  return new Card({
+    value: value,
+    quantity: quantity
+  });
+};
 
-function makeValueCard(value, quantity){
-  for(let i = 1; i <= quantity; i++){
-    let card = new ValueCard({
-      value: value
-    })
-    deck.mileageCards.push(card);
-  }
-}
-
-function makeSpecialCard(name, type, quantity){
-  for(let i = 1; i <= quantity; i++){
-    let card = new SpecialCard({
-      name: name,
-      type: type
-    })
-    deck.specialCards.push(card);
-  }
-}
+function makeSpecialCard(cardType, cardAttr, quantity){
+  return new Card({
+    cardType: cardType,
+    cardAttr: cardAttr,
+    quantity: quantity 
+  });
+};
 
 const deck = new Deck;
-makeSpecialCard("No Rocket Fuel", "break", 3);
-makeSpecialCard("Black Hole", "break", 3);
-makeSpecialCard("More Fuel", "fix", 3);
-makeSpecialCard("Worm Hole", "fix", 3);
-makeValueCard(50, 5);
-makeValueCard(100, 5);
 
+deck.cards.push(
+  makeSpecialCard('break', 'no-gas', 3),
+  makeSpecialCard('fix', 'gas', 3),
+  makeSpecialCard('break', 'black-hole', 3),
+  makeSpecialCard('fix', 'event-horizon', 3),
+  makeMileageCard(50, 5),
+  makeMileageCard(100, 5),
+  makeMileageCard(150, 5),
+  makeMileageCard(200, 3),
+);
 
 module.exports = deck
