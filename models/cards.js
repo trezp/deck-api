@@ -9,6 +9,7 @@ const ValueCardSchema = mongoose.Schema({
 
 const SpecialCardSchema = mongoose.Schema({
   name: String,
+  type: String,
   played: {type: Boolean, default: false},
   special: {type: Boolean, default: true}
 });
@@ -32,18 +33,21 @@ function makeValueCard(value, quantity){
   }
 }
 
-function makeSpecialCard(name, quantity){
+function makeSpecialCard(name, type, quantity){
   for(let i = 1; i <= quantity; i++){
     let card = new SpecialCard({
       name: name,
+      type: type
     })
     deck.specialCards.push(card);
   }
 }
 
 const deck = new Deck;
-makeSpecialCard("No Rocket Fuel", 3);
-makeSpecialCard("Black Hole", 3);
+makeSpecialCard("No Rocket Fuel", "break", 3);
+makeSpecialCard("Black Hole", "break", 3);
+makeSpecialCard("More Fuel", "fix", 3);
+makeSpecialCard("Worm Hole", "fix", 3);
 makeValueCard(50, 5);
 makeValueCard(100, 5);
 
